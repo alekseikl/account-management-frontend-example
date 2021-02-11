@@ -2,16 +2,60 @@
   "name": "account-management-frontend-level-3",
   "version": "0.0.1",
   "scripts": {
-    "build:frontend": "echo build your frontend app here",
-    "start:frontend": "echo start your frontend app here",
+    "build:frontend": "react-scripts build",
+    "start:frontend": "react-scripts start",
     "start:backend": "node_modules/.bin/account-management-api",
     "start": "yarn run start:backend & yarn run start:frontend",
     "test": "cypress run"
   },
   "dependencies": {
-    "@devskills/account-management-api": "^0.0.3"
+    "@devskills/account-management-api": "^0.0.3",
+    "@reduxjs/toolkit": "^1.5.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "axios": "^0.21.1",
+    "formik": "^2.2.6",
+    "lodash.range": "^3.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "react-scripts": "4.0.2",
+    "redux-saga": "^1.1.3",
+    "styled-components": "^5.2.1",
+    "typescript": "^4.1.2",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
+    "@types/lodash.range": "^3.2.6",
+    "@types/react-redux": "^7.1.16",
+    "@types/styled-components": "^5.1.7",
+    "@types/uuid": "^8.3.0",
+    "@types/yup": "^0.29.11",
     "cypress": "^5.4.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

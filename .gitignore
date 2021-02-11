@@ -1,3 +1,4 @@
 node_modules/
 cypress/plugins
 cypress/support
+.DS_Store
