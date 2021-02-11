@@ -6,8 +6,6 @@ interface State {
   create: {
     pending: boolean;
     error: BaseError | null;
-    succeeded: boolean;
-    reSending: boolean;
   },
   submittedTransactions: SubmittedTransaction[];
   failedTransactions: Map<string, Transaction>;
@@ -26,9 +24,7 @@ interface TransactionFailurePayload {
 const initialState: State = {
   create: {
     pending: false,
-    error: null,
-    succeeded: false,
-    reSending: false
+    error: null
   },
   submittedTransactions: [],
   failedTransactions: new Map(),
@@ -39,15 +35,12 @@ export default createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    createTransactionRequest(state, { payload }: PayloadAction<TransactionRequest>) {
+    createTransactionRequest(state, {}: PayloadAction<TransactionRequest>) {
       state.create.pending = true;
       state.create.error = null;
-      state.create.succeeded = false;
-      state.create.reSending = !!payload.transactionId;
     },
     createTransactionSuccess(state, { payload: { transaction, sentAt } }: PayloadAction<TransactionSuccessPayload>) {
       state.create.pending = false;
-      state.create.succeeded = true;
       state.submittedTransactions.push(transaction);
       state.failedTransactions.delete(transaction.transactionId);
       state.lastSubmitTime = sentAt;

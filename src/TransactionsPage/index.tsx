@@ -6,6 +6,7 @@ import { PageContainer, PageTitle, SectionTitle, TransactionCellContainer } from
 import TransactionForm from './TransactionForm'
 import * as selectors from '../store/selectors'
 import * as actions from '../store/actions'
+import { Transaction } from '../entities/Transactions';
 interface Values {
   accountId: string;
   amount: string;
@@ -29,26 +30,21 @@ const TransactionsPage: FC = () => {
   const dispatch = useDispatch();
   const { pending, error } = useSelector(selectors.createTransactionState);
   const recentTransactions = useSelector(selectors.recentTransactions)
+  const failedTransactions = useSelector(selectors.failedTransactions)
 
   const handleSubmit = useCallback((values: Values) => {
     dispatch(actions.createTransactionRequest({
       accountId: values.accountId,
       amount: parseInt(values.amount)
     }))
-  }, [])
+  }, [dispatch])
 
-  return (
-    <PageContainer>
-      <PageTitle>Account Management App</PageTitle>
-      <SectionTitle>Submit new transaction</SectionTitle>
-      <Formik 
-        initialValues={initialValues} 
-        validationSchema={schema} 
-        validateOnChange={false} 
-        onSubmit={handleSubmit}
-      >
-        <TransactionForm pending={pending} error={error} />
-      </Formik>
+  const reSendTransactionHandler = (transaction: Transaction) => () => {
+    dispatch(actions.createTransactionRequest(transaction))
+  }
+
+  const renderRecentTransactions = () =>(
+    <>
       <SectionTitle>Recently submitted transactions</SectionTitle>
       {recentTransactions.map((transaction) => (
         <TransactionCellContainer 
@@ -69,10 +65,50 @@ const TransactionsPage: FC = () => {
           <p>
             Current <strong>{transaction.accountId}</strong>'s balance is
             <strong> {transaction.balance < 0 ? '-' : ''}${Math.abs(transaction.balance)}.</strong>
-
           </p>
         </TransactionCellContainer>
       ))}
+    </>
+  )
+
+  const renderFailedTransactions = () => (
+    <>
+      <SectionTitle>Failed transactions</SectionTitle>
+      {failedTransactions.map((transaction) => (
+        <TransactionCellContainer 
+          key={transaction.transactionId}
+          data-failed={true}
+        >
+          <p>
+            {
+              transaction.amount < 0 ? 
+              <span><strong>Failed to withdraw ${Math.abs(transaction.amount)}</strong> from </span> : 
+              <span><strong>Failed to transfer ${Math.abs(transaction.amount)}</strong> to </span> 
+            }
+            <strong>{transaction.accountId}.</strong>
+          </p>
+          <p>
+            <button disabled={pending} onClick={reSendTransactionHandler(transaction)}>Send again</button>
+          </p>
+        </TransactionCellContainer>
+      ))}
+    </>
+  )
+
+  return (
+    <PageContainer>
+      <PageTitle>Account Management App</PageTitle>
+      <SectionTitle>Submit new transaction</SectionTitle>
+      <Formik 
+        initialValues={initialValues} 
+        validationSchema={schema} 
+        validateOnChange={false} 
+        onSubmit={handleSubmit}
+      >
+        <TransactionForm pending={pending} error={error} />
+      </Formik>
+      {failedTransactions.length > 0 && renderFailedTransactions()}
+      {recentTransactions.length > 0 && renderRecentTransactions()}
     </PageContainer>
   )
 } 

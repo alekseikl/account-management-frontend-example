@@ -21,10 +21,14 @@ export const SectionTitle = styled.div`
   font-weight: bold;
   margin-bottom: 32px;
 `
-export const WarningMessage = styled.div`
+export const WarningContainer = styled.div`
   width: 460px;
   margin-bottom: 16px;
   color: red;
+  min-height: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `
 
 export const StyledForm = styled(Form)`
@@ -81,5 +85,9 @@ export const TransactionCellContainer = styled.div`
 
   p:not(:last-child) {
     margin-bottom: 16px;
+  }
+
+  &[data-failed='true'] {
+    border: solid 1px red;
   }
 `

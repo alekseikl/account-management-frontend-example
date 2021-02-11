@@ -3,7 +3,7 @@ import React, { FC, memo } from 'react'
 import { BaseError } from '../core/ApiError'
 import useOnChange from '../hooks/useOnChange'
 import InputField from './InputField'
-import { StyledForm, WarningMessage } from "./styles"
+import { StyledForm, WarningContainer } from "./styles"
 
 interface Props {
   pending: boolean;
@@ -25,7 +25,9 @@ const TransactionForm: FC<Props> = ({
 
   return (
     <>
-      {error && <WarningMessage data-type="warning-message">{error.message}</WarningMessage>}
+      <WarningContainer>
+        {error && <span data-type="warning-message">{error.message}</span>}
+      </WarningContainer>
       <StyledForm data-type="transaction-form">
         <InputField type="text" name="accountId" label="Account ID:" dataType="account-id" />
         <InputField type="text" name="amount" label="Amount:" dataType="amount" />

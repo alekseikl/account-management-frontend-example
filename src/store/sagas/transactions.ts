@@ -54,7 +54,8 @@ export function* createTransaction({ payload }: PayloadAction<TransactionRequest
       sentAt: Date.now()
     }))
   } catch (error) {
-    const failedTransaction = error instanceof ApiError && error.isTransportError ? {
+    const shouldReSend = error instanceof ApiError && error.isTransportError && !payload.transactionId;
+    const failedTransaction = shouldReSend ? {
       ...payload,
       transactionId
     } : undefined

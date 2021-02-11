@@ -50,3 +50,13 @@ Your task is to build a Frontend app that integrates with a predefined backend s
 Made by [DevSkills](https://devskills.co). 
 
 How was your experience? **Give us a shout on [Twitter](https://twitter.com/DevSkillsHQ) / [LinkedIn](https://www.linkedin.com/company/devskills)**.
+
+### Update
+
+* **Used libraries**
+  * Redux - app state management
+  * Redux-Saga - side effects management
+  * Formik - form building
+  * Yup - form validation
+
+* **Failed transactions.** All transaction submission failed by transport failure reasons (unreachable server, HTTP 5xx errors) stored into redux and can be re-send manually from the main page by clicking 'Send again' button on such transaction. The alternative approach might be a detached saga task which would check a list of failed transaction after a certain time interval and try to submit them again. But I think the current solution is more user friendly.
